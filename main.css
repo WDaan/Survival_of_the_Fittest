@@ -19,17 +19,28 @@ h5 {
 	text-align: center;
 }
 
+table {
+	margin-left: 20px;
+}
+
+th {
+	min-width: 30px;
+}
+
 .container {
-	margin-left: 40px;
-	display: inline-block;
+	width: 100%;
+}
+
+#canvas_panel {
+	min-width: 700px;
+	max-width: 700px;
 }
 
 .panel {
 	background-color: #e9e9e9;
-	margin-top: 15px;
+	margin: 15px auto;
 	border-radius: 2.5px;
 	overflow: hidden;
-	max-width: 600px;
 	-webkit-box-shadow: 12px 11px 5px -5px rgb(145, 145, 145, 0.35);
 	-moz-box-shadow: 12px 11px 5px -5px rgb(145, 145, 145, 0.35);
 	box-shadow: 12px 11px 5px -5px rgb(145, 145, 145, 0.35);
@@ -37,16 +48,31 @@ h5 {
 
 
 .tools {
-	margin: 15px 0px 5px 15px;
+	display: grid;
+	grid-template-areas:
+		'main main2'
+		'footer footer';
+	grid-gap: 10px;
+	padding: 10px;
+}
+
+
+.variables_panel {
+	grid-area: main;
+	margin-left: 50px;
+}
+
+.save_stats_panel {
+	grid-area: main2;
+}
+
+.start_stop_panel {
+	grid-area: footer;
 }
 
 #check_perception {
 	display: block !important;
 	visibility: visible !important;
-}
-
-.variables {
-	display: grid;
 }
 
 input {
@@ -59,5 +85,32 @@ input {
 }
 
 .confirm_variables {
-	margin: 15px 0px 15px 175px;
+	margin: 15px 0px 15px 75px;
+	float: left;
+}
+
+.bot_stats {
+	display: inline-block;
+}
+
+#alive_table,
+#dead_table {
+	overflow-anchor: none;
+}
+
+
+.stop {
+	background-color: red !important;
+	padding-left: 50px !important;
+	padding-right: 50px !important;
+}
+
+.start {
+	padding-left: 50px !important;
+	padding-right: 50px !important;
+}
+
+.START_STOP {
+	margin-left: 300px;
+	margin-bottom: 20px;
 }

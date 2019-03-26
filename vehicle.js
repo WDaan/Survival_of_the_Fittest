@@ -12,50 +12,81 @@
 // Part 4: https://youtu.be/ykOcaInciBI
 // Part 5: https://youtu.be/VnFF5V5DS8s
 
-var mr = 0.01;
+var mr;
 
-function Vehicle(x, y, dna) {
+function set_mr(num) {
+  mr = num;
+}
+
+
+
+function Vehicle(x, y, dna, id) {
   this.acceleration = createVector(0, 0);
   this.velocity = createVector(0, -2);
   this.position = createVector(x, y);
   this.r = 4;
   this.maxspeed = 5;
   this.maxforce = 0.5;
-
+  this.time_alive = 0;
   this.health = 1;
+  this.id = id;
+  this.offspring_id = 0;
 
-  this.dna = [];
-  if (dna === undefined) {
+  var that = this;
+
+  this.dna = {
+    food_weight: 0,
+    poison_weight: 0,
+    food_perception: 0,
+    poison_perception: 0
+  }
+  if (dna == null) {
     // Food weight
-    this.dna[0] = random(-2, 2);
+    this.dna.food_weight = random(-2, 2);
     // Poison weight
-    this.dna[1] = random(-2, 2);
+    this.dna.poison_weight = random(-2, 2);
     // Food perception
-    this.dna[2] = random(0, 100);
+    this.dna.food_perception = random(0, 100);
     // Poision Percepton
-    this.dna[3] = random(0, 100);
+    this.dna.poison_perception = random(0, 100);
   } else {
     // Mutation
-    this.dna[0] = dna[0];
+    this.dna.food_weight = dna.food_weight;
     if (random(1) < mr) {
-      this.dna[0] += random(-0.1, 0.1);
+      this.dna.food_weight += random(-0.1, 0.1);
     }
-    this.dna[1] = dna[1];
+    this.dna.poison_weight = dna.poison_weight;
     if (random(1) < mr) {
-      this.dna[1] += random(-0.1, 0.1);
+      this.dna.poison_weight += random(-0.1, 0.1);
     }
-    this.dna[2] = dna[2];
+    this.dna.food_perception = dna.food_perception;
     if (random(1) < mr) {
-      this.dna[2] += random(-10, 10);
+      this.dna.food_perception += random(-10, 10);
     }
-    this.dna[3] = dna[3];
+    this.dna.poison_perception = dna.poison_perception;
     if (random(1) < mr) {
-      this.dna[3] += random(-10, 10);
+      this.dna.poison_perception += random(-10, 10);
     }
   }
 
+  this.add_seconds = function () {
+    this.time_alive += 1;
+    console.log(this.time_alive);
+  }
+
+  this.timer = setInterval(function () {
+      that.time_alive += 1;
+    },
+    1000);
+
+  this.stop_time = function (timerId) {
+    clearInterval(timerId);
+  }
+
+
+
   // Method to update location
-  this.update = function() {
+  this.update = function () {
 
     this.health -= 0.005;
 
@@ -68,31 +99,35 @@ function Vehicle(x, y, dna) {
     this.acceleration.mult(0);
   }
 
-  this.applyForce = function(force) {
+  this.applyForce = function (force) {
     // We could add mass here if we want A = F / M
     this.acceleration.add(force);
   }
 
-  this.behaviors = function(good, bad) {
-    var steerG = this.eat(good, 0.2, this.dna[2]);
-    var steerB = this.eat(bad, -1, this.dna[3]);
+  this.behaviors = function (good, bad) {
+    var steerG = this.eat(good, 0.2, this.dna.food_perception);
+    var steerB = this.eat(bad, -1, this.dna.poison_perception);
 
-    steerG.mult(this.dna[0]);
-    steerB.mult(this.dna[1]);
+    steerG.mult(this.dna.food_weight);
+    steerB.mult(this.dna.poison_weight);
 
     this.applyForce(steerG);
     this.applyForce(steerB);
   }
 
-  this.clone = function() {
-    if (random(1) < 0.002) {
-      return new Vehicle(this.position.x, this.position.y, this.dna);
+  this.clone = function () {
+
+    if (random(1) < 0.002 && this.health > 0.65) {
+      this.offspring_id++;
+      var id = this.id + "." + this.offspring_id;
+      var nv = new Vehicle(this.position.x, this.position.y, this.dna, id);
+      return nv;
     } else {
       return null;
     }
   }
 
-  this.eat = function(list, nutrition, perception) {
+  this.eat = function (list, nutrition, perception) {
     var record = Infinity;
     var closest = null;
     for (var i = list.length - 1; i >= 0; i--) {
@@ -120,7 +155,7 @@ function Vehicle(x, y, dna) {
 
   // A method that calculates a steering force towards a target
   // STEER = DESIRED MINUS VELOCITY
-  this.seek = function(target) {
+  this.seek = function (target) {
 
     var desired = p5.Vector.sub(target, this.position); // A vector pointing from the location to the target
 
@@ -135,11 +170,17 @@ function Vehicle(x, y, dna) {
     //this.applyForce(steer);
   }
 
-  this.dead = function() {
-    return (this.health < 0)
+  this.dead = function () {
+
+    if (this.health < 0) {
+      this.stop_time(this.timer);
+      return true;
+    } else {
+      return false;
+    }
   }
 
-  this.display = function() {
+  this.display = function () {
     // Draw a triangle rotated in the direction of velocity
     var angle = this.velocity.heading() + PI / 2;
 
@@ -152,12 +193,12 @@ function Vehicle(x, y, dna) {
       strokeWeight(3);
       stroke(0, 255, 0);
       noFill();
-      line(0, 0, 0, -this.dna[0] * 25);
+      line(0, 0, 0, -this.dna.food_weight * 25);
       strokeWeight(2);
-      ellipse(0, 0, this.dna[2] * 2);
+      ellipse(0, 0, this.dna.food_perception * 2);
       stroke(255, 0, 0);
-      line(0, 0, 0, -this.dna[1] * 25);
-      ellipse(0, 0, this.dna[3] * 2);
+      line(0, 0, 0, -this.dna.poison_weight * 25);
+      ellipse(0, 0, this.dna.poison_perception * 2);
     }
 
     var gr = color(0, 255, 0);
@@ -177,7 +218,7 @@ function Vehicle(x, y, dna) {
   }
 
 
-  this.boundaries = function() {
+  this.boundaries = function () {
     var d = 25;
 
     var desired = null;

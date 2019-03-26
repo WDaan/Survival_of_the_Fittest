@@ -1,4 +1,5 @@
 <html>
+
 <head>
     <meta charset="utf-8">
     <script language="javascript" src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.3/p5.min.js"
@@ -26,33 +27,127 @@
             <div id="canvas"></div>
         </div>
         <div class="panel">
+            <h5>Generation: <div id="gen_num">1</div>
+            </h5>
             <div class="tools">
-                <label>
-                    <input id="check_perception" type="checkbox" />
-                    <span>Perception</span>
-                </label>
-                <div class="variables">
-                    <div style="display: inline-block">
-                        <input type="number" id="num_car">
-                        <label for="num_car">Number of cars</label>
+                <div class="variables_panel">
+                    <label>
+                        <input id="check_perception" type="checkbox" />
+                        <span>Perception</span>
+                    </label>
+                    <div class="variables">
+                        <div>
+                            <input type="number" id="num_car" max=25>
+                            <label for="num_car">Number of cars</label>
+                        </div>
+                        <div>
+                            <input type="number" id="num_food" max=40>
+                            <label>amount of food</label>
+                        </div>
+                        <div>
+                            <input type="number" id="num_pois" max=40>
+                            <label>amount of poison</label>
+                        </div>
+                        <div>
+                            <input type="number" id="mr" max=2>
+                            <label>Mutation rate</label>
+                        </div>
                     </div>
-                    <div style="display: inline-block">
-                        <input type="number" id="num_food">
-                        <label for="num_car">amount of food</label>
-                    </div>
-                    <div style="display: inline-block">
-                        <input type="number" id="num_pois">
-                        <label for="num_car">amount of poison</label>
+                    <div class="confirm_variables">
+                        <a class="waves-effect waves-light btn" id="apply_variables">Apply</a>
                     </div>
                 </div>
-                <div class="confirm_variables">
-                    <a class="waves-effect waves-light btn" id="apply_variables">Apply</a>
+                <div class="save_stats_panel">
+                    <p>Save best 10 (if possible)</p>
+                    <a class="waves-effect waves-light btn" id="save">save</a>
+                    </br>
+                    <label style="margin-top: 20px;">
+                        <input id="use_best" type="checkbox" />
+                        <span>Use best Bots to restart</span>
+                        </br>
+                        </br>
+                        <p>Current number alive : <div id="curr_num_alive"></div>
+                        </p>
+                    </label>
+                </div>
+                <div class="start_stop_panel">
+                    <div class="START_STOP">
+                        <a class="waves-effect waves-light btn stop" id="STOP">STOP</a>
+                    </div>
                 </div>
             </div>
+
         </div>
         <div class="panel">
-            <h5>Alive Cars</h5>
+            <h5>TOP 5 Alive Bots</h5>
+            <table id="alive_table">
+                <tr>
+                    <th>#</th>
+                    <th>food weight</th>
+                    <th>poison weight</th>
+                    <th>food perception</th>
+                    <th>poison perception</th>
+                    <th>Health</th>
+                    <th>Survival Time</th>
+                </tr>
+                <tr id="alive_row_1">
+                    <td id="cell_1">1</td>
+                    <td id="cell_2">5</td>
+                    <td id="cell_3">3</td>
+                    <td id="cell_4">4</td>
+                    <td id="cell_5">4</td>
+                    <td id="cell_6">4</td>
+                    <td id="cell_7">4</td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel">
+            <h5>Dead Bots</h5>
+            <table id="dead_table">
+                <tr>
+                    <th>#</th>
+                    <th>food weight</th>
+                    <th>poison weight</th>
+                    <th>food perception</th>
+                    <th>poison perception</th>
+                    <th>Health</th>
+                    <th>Survival Time</th>
+                </tr>
+                <tr id="dead_row_1">
+                    <td id="cell_1">1</td>
+                    <td id="cell_2">5</td>
+                    <td id="cell_3">3</td>
+                    <td id="cell_4">4</td>
+                    <td id="cell_5">4</td>
+                    <td id="cell_6">4</td>
+                    <td id="cell_7">4</td>
+                </tr>
+            </table>
+        </div>
+        <div class="panel">
+            <h5>TOP 10 Bots of all time</h5>
+            <table id="best_table">
+                <tr>
+                    <th>#</th>
+                    <th>food weight</th>
+                    <th>poison weight</th>
+                    <th>food perception</th>
+                    <th>poison perception</th>
+                    <th>Health</th>
+                    <th>Survival Time</th>
+                </tr>
+                <tr id="best_row_1">
+                    <td id="cell_1">1</td>
+                    <td id="cell_2">5</td>
+                    <td id="cell_3">3</td>
+                    <td id="cell_4">4</td>
+                    <td id="cell_5">4</td>
+                    <td id="cell_6">4</td>
+                    <td id="cell_7">4</td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>
+
 </html>
