@@ -117,7 +117,7 @@ function Vehicle(x, y, dna, id) {
 
   this.clone = function () {
 
-    if (random(1) < 0.002 && this.health > 0.65) {
+    if (random(1) < 0.002 && this.health > 0.65 && this.time_alive > 10) {
       this.offspring_id++;
       var id = this.id + "." + this.offspring_id;
       var nv = new Vehicle(this.position.x, this.position.y, this.dna, id);

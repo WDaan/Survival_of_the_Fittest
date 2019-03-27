@@ -32,8 +32,7 @@ th {
 }
 
 #canvas_panel {
-	min-width: 700px;
-	max-width: 700px;
+	width: 965px;
 }
 
 .panel {
@@ -94,7 +93,8 @@ input {
 }
 
 #alive_table,
-#dead_table {
+#dead_table,
+#best_table {
 	overflow-anchor: none;
 }
 
@@ -113,4 +113,10 @@ input {
 .START_STOP {
 	margin-left: 300px;
 	margin-bottom: 20px;
+}
+
+
+.disabled {
+	pointer-events: none;
+	cursor: default;
 }
