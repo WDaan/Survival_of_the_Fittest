@@ -5,3 +5,6 @@ original repository https://github.com/CodingTrain/website/tree/master/CodingCha
 - Simple evolving algorithm that selects the best bots, who may reproduce with slight variation
 - added management/stats panel
 - uses p5 : https://p5js.org/
+
+
+live demo: https://wdaan.github.io/SURVIVAL/index.html
