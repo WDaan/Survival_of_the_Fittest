@@ -9,4 +9,4 @@ original repository: https://github.com/CodingTrain/website/tree/master/CodingCh
 - uses p5 : https://p5js.org/
 
 
-live demo: https://wdaan.github.io/SURVIVAL/index.html
+live demo: https://wdaan.github.io/Survival_of_the_Fittest/
